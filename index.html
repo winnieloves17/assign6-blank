@@ -9,8 +9,17 @@
   <link rel="stylesheet" href="css/css.css">
 
   <!--引入初始化 Parse 的 js 檔案-->
+  <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   <script type="text/javascript" src="<!--引入初始化 Parse 的 js 檔案-->"></script>
   <script  type="text/javascript">
+
+  Parse.initialize("pLwqNE4B6LiYJgsqxF8mW49YyTVztB0blZX9HuKR", "7O8gPn5HdgGK32tWBNBtzMH8U0u2uRRNzei37ZnT");
+
+    var TestObject = Parse.Object.extend("TestObject");
+    var testObject = new TestObject();
+    testObject.save({foo: "bar"}).then(function(object) {
+      alert("yay! it worked");
+    });
   
     $(document).ready(function(){
       /* 顯示登入者名稱，避免未登入者進入此頁面*/
