@@ -14,22 +14,6 @@
   <script  type="text/javascript">
 
     $(document).ready(function(){
-
-      var userQuery = new Parse.Query("Parse.User");
-      userQuery.doesNotMatchInQuery("");
-      userQuery.find({
-        success:function(){
-
-        }
-      })
-
-      true
-      false
-      
-
-
-
-      console.log('document ready');
       /* 要判斷使用者角色，避免不應該看到的人進到此頁面 */
         // 提示 1 : 將非老師的角色轉址到 index 頁面
         // 提示 2 : 將未登入的使用者轉指導 logIn 頁面
@@ -38,9 +22,32 @@
         // 提示 1 : 挑選符合條件的使用者
         //         可參考https://parse.com/docs/js/guide#queries-query-constraints
         // 提示 2 : 可使用 jqeury 中的 append 方法將資料顯示在<table id="table">中
+      var roleACL = new Parse.ACL();
+      roleACL.setPublicReadAccess(true);
+      var role = new Parse.Role("Teacher", roleACL);
+      role.save();
 
+      var role = new Parse.Role("Student", roleACL);
+      role.getUsers().add(usersToAddToRole);
+      role.getRoles().add(rolesToAddToRole);
+      role.save();
+
+      var query = new Parse.Query(Parse.User);
+      query.equalTo(role,"Teacher");  // find
+      query.find({
+        success:function(role){
+          e.preventDefault();
+        },
+        error:function(role,error){
+          console.log(error);
+          alert(error,message);
+          window.location = 'index.html';
+        }
+    });
+      console.log('document ready');
       /* 結束*/
     }); // end of document ready
+
   </script>
 </head>
 
