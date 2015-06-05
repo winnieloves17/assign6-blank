@@ -9,10 +9,32 @@
   <link rel="stylesheet" href="css/css.css">
 
   <!--引入初始化 Parse 的 js 檔案-->
-  <script type="text/javascript" src="<!--引入初始化 Parse 的 js 檔案-->"></script>
+  <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+  <script type="text/javascript" src="key.js"></script>
   <script  type="text/javascript">
+
     $(document).on('submit','#logInForm',function(e){
+      e.preventDefault();
+      console.log("login");
+      var username = $('#username').val();
+      var password = $('#password').val();
+      console.log("登入之前的 Parse.User.current():",Parse.User.current());
+
+      Parse.User.login(username, password, {
+        success:function(user){
+          console.log("登入之後的Parse.User.current():",Parse.User.current());
+          alert('登入成功');
+          window.location = 'index.html';
+          //轉址到index.html
+        },
+        error:function(user,error){
+          console.log(error);
+          alert(error.mess)
+        }
+      }) 
       console.log('logIn submit');
+
+
       /* 請閱讀完 html 後在這裡填入送出表單後需要執行的程式碼 */
         // 提示1 : 記得使用 preventDefault 方程 避免表單轉址
         // 提示2 : 請在使用者登入成功後，自動幫助使用者簽到，
